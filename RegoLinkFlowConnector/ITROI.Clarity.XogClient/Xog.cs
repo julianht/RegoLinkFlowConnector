@@ -290,8 +290,6 @@ namespace ITROI.Clarity.XogClient
                 webRequest.Timeout = Timeout.Infinite;
                 webRequest.ReadWriteTimeout = Timeout.Infinite;
 
-                webRequest.Proxy = base.GetWebProxy();
-
                 Stream postStream = webRequest.GetRequestStream();
                 postStream.Write(requestBuffer, 0, requestBuffer.Length);
                 postStream.Close();
