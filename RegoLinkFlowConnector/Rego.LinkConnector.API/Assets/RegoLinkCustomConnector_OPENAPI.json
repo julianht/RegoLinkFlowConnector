@@ -1,0 +1,149 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "RegoLink for CA PPM",
+    "description": "RegoLink Flow Connector"
+  },
+  "host": "host-connector.azurewebsites.net",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/host/GetActions": {
+      "get": {
+        "description": "List all available actions",
+        "summary": "GetActions",
+        "operationId": "GetActions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetActions"
+            }
+          }
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/api/host/GetParameters/{actionID}": {
+      "get": {
+        "description": "List all parameters based on the selected Action",
+        "summary": "GetParameters",
+        "operationId": "GetParametersSchema",
+        "parameters": [
+          {
+            "name": "actionID",
+            "type": "string",
+            "in": "path",
+            "description": "Select Actions",
+            "required": true,
+            "x-ms-summary": "Actions"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/api/host/UpdateEndpoint/{actionID}": {
+      "post": {
+        "description": "Update/Create Object Instance",
+        "summary": "Update/Create Object Instance",
+        "operationId": "UpdateEndpoint",
+        "parameters": [
+          {
+            "name": "actionID",
+            "type": "string",
+            "in": "path",
+            "description": "Select Actions",
+            "required": true,
+            "x-ms-summary": "Actions",
+            "x-ms-dynamic-values": {
+              "operationId": "GetActions",
+              "value-path": "id",
+              "value-title": "name"
+            }
+          },
+          {
+            "name": "dynamicActionSchema",
+            "in": "body",
+            "description": "Dynamic Schema of items in selected action",
+            "schema": {
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetParametersSchema",
+                "parameters": {
+                  "actionID": {
+                    "parameter": "actionID"
+                  }
+                },
+                "value-path": "items"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "GetActions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      }
+    },
+    "DynamicResponseGetParametersSchema": {
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetParametersSchema",
+        "parameters": {
+          "actionID": {
+            "parameter": "actionID"
+          }
+        },
+        "value-path": "items"
+      }
+    }
+  },
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {
+    "basic_auth": {
+      "type": "basic"
+    }
+  },
+  "security": [],
+  "tags": []
+}

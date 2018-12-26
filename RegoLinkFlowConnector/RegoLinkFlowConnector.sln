@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.64
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegoLinkFlowConnector", "RegoLinkFlowConnector\RegoLinkFlowConnector.csproj", "{BF8FA9F7-FB7B-4BCD-B97E-33559EB7667A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITROI.Clarity.XogClient", "ITROI.Clarity.XogClient\ITROI.Clarity.XogClient.csproj", "{67628943-1DC4-4548-BD8A-2F081F3BD91B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rego.LinkConnector.Core", "Rego.LinkConnector.Core\Rego.LinkConnector.Core.csproj", "{2AE28025-E21F-4384-A706-48744189E386}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rego.LinkConnector.CAPPM", "Rego.LinkConnector.CAPPM\Rego.LinkConnector.CAPPM.csproj", "{19DA2FD6-AA9F-45ED-B764-4473350281DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rego.LinkConnector.API", "Rego.LinkConnector.API\Rego.LinkConnector.API.csproj", "{ADE8B094-2238-4900-84CB-2B6591656F06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BF8FA9F7-FB7B-4BCD-B97E-33559EB7667A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF8FA9F7-FB7B-4BCD-B97E-33559EB7667A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF8FA9F7-FB7B-4BCD-B97E-33559EB7667A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF8FA9F7-FB7B-4BCD-B97E-33559EB7667A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67628943-1DC4-4548-BD8A-2F081F3BD91B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67628943-1DC4-4548-BD8A-2F081F3BD91B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67628943-1DC4-4548-BD8A-2F081F3BD91B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67628943-1DC4-4548-BD8A-2F081F3BD91B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AE28025-E21F-4384-A706-48744189E386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE28025-E21F-4384-A706-48744189E386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE28025-E21F-4384-A706-48744189E386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE28025-E21F-4384-A706-48744189E386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19DA2FD6-AA9F-45ED-B764-4473350281DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19DA2FD6-AA9F-45ED-B764-4473350281DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19DA2FD6-AA9F-45ED-B764-4473350281DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19DA2FD6-AA9F-45ED-B764-4473350281DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADE8B094-2238-4900-84CB-2B6591656F06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE8B094-2238-4900-84CB-2B6591656F06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE8B094-2238-4900-84CB-2B6591656F06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE8B094-2238-4900-84CB-2B6591656F06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
