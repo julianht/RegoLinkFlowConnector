@@ -1,5 +1,4 @@
-﻿using Rego.LinkConnector.Core.Authentication.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,13 +11,14 @@ using System.Net;
 using ITROI.Clarity.XogClient;
 using Rego.LinkConnector.Core.Authentication.DTO;
 using Rego.LinkConnector.CAPPM.Resources;
+using ITROI.Clarity.XogClient.Exceptions;
 
 namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
 {
     /// <summary>
     /// CA PPM XOG authentication implementation
     /// </summary>
-    public class XOGAuthentication : IAuth
+    public class XOGAuthentication
     {
         /// <summary>
         /// Core resources implementation
@@ -35,6 +35,9 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
         /// </summary>
         private IXogClient _xogClient;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public XOGAuthentication()
         {
             this._coreResourcesBLL = new CoreResourcesBLL();
@@ -53,7 +56,7 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
             {
                 if (headers.Authorization == null)
                 {
-                    throw new Exception(this._coreResourcesBLL.GetResource("ERROR_AUTHENTICATION_FAILED"));
+                    return null;
                 }
 
                 string decodedAuthenticationToken = Encoding.UTF8.GetString(Convert.FromBase64String(headers.Authorization.Parameter));
@@ -62,7 +65,7 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
 
                 if (authenticationParams.Length != 2)
                 {
-                    throw new Exception(this._coreResourcesBLL.GetResource("ERROR_AUTHENTICATION_FAILED"));
+                    return null;
                 }
 
                 string url = authenticationParams[0],
@@ -77,7 +80,7 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
                     string.IsNullOrEmpty(username) ||
                     string.IsNullOrEmpty(password))
                 {
-                    throw new Exception(this._coreResourcesBLL.GetResource("ERROR_AUTHENTICATION_FAILED"));
+                    return null;
                 }
 
                 return new AuthenticationParametersDTO
@@ -87,9 +90,9 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
                     Password = password
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                return null;
             }
         }
 
@@ -100,40 +103,43 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
         /// <returns>HTTP authentication response</returns>
         public HttpResponseMessage EndPointAuthenticate(AuthenticationParametersDTO authenticationParametersDTO)
         {
+            bool unauthorized = false;
+
             try
             {
                 if (authenticationParametersDTO == null)
                 {
-                    return new HttpResponseMessage
-                    {
-                        Content = new StringContent(this._coreResourcesBLL.GetResource("ERROR_AUTHENTICATION_FAILED")),
-                        StatusCode = HttpStatusCode.Forbidden
-                    };
+                    unauthorized = true;
+                    throw new Exception(this._coreResourcesBLL.GetResource("ERROR_AUTHENTICATION_FAILED"));
                 }
 
                 if (!authenticationParametersDTO.URL.ToLower().Contains("/niku/xog"))
                 {
-                    return new HttpResponseMessage
-                    {
-                        Content = new StringContent(this._CAPPMResourcesBLL.GetResource("ERROR_INVALID_CAPPM_URL")),
-                        StatusCode = HttpStatusCode.InternalServerError
-                    };
+                    unauthorized = true;
+                    throw new Exception(this._CAPPMResourcesBLL.GetResource("ERROR_INVALID_CAPPM_URL"));
                 }
 
                 this._xogClient = new XogClient(authenticationParametersDTO.URL);
-                string sessionID = this._xogClient.GetSessionId(authenticationParametersDTO.Username,
-                                                                authenticationParametersDTO.Password);
+                string sessionID = null;
 
-                if (!string.IsNullOrEmpty(sessionID))
+                try
                 {
-                    return new HttpResponseMessage();
+                    sessionID = this._xogClient.GetSessionId(authenticationParametersDTO.Username,
+                                                             authenticationParametersDTO.Password);
+                }
+                catch (XogClientLoginException ex)
+                {
+                    unauthorized = true;
+                    throw ex;
                 }
 
-                return new HttpResponseMessage
+                if (string.IsNullOrEmpty(sessionID))
                 {
-                    Content = new StringContent(this._xogClient.GetResponse()),
-                    StatusCode = HttpStatusCode.Forbidden
-                };
+                    unauthorized = true;
+                    throw new Exception(this._xogClient.GetResponse());
+                }
+
+                return new HttpResponseMessage();
             }
             catch (Exception ex)
             {
@@ -148,7 +154,8 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
                 return new HttpResponseMessage
                 {
                     Content = new StringContent(message),
-                    StatusCode = HttpStatusCode.InternalServerError
+                    StatusCode = unauthorized ? HttpStatusCode.Unauthorized 
+                                              : HttpStatusCode.InternalServerError
                 };
             }
         }

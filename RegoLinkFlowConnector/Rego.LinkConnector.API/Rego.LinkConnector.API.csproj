@@ -109,6 +109,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Rego.LinkConnector.CAPPM\Rego.LinkConnector.CAPPM.csproj">
+      <Project>{19da2fd6-aa9f-45ed-b764-4473350281dd}</Project>
+      <Name>Rego.LinkConnector.CAPPM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rego.LinkConnector.Core\Rego.LinkConnector.Core.csproj">
       <Project>{2ae28025-e21f-4384-a706-48744189e386}</Project>
       <Name>Rego.LinkConnector.Core</Name>

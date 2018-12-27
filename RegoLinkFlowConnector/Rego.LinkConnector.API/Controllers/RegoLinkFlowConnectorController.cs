@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Rego.LinkConnector.Core.Authentication.Contracts;
 using Rego.LinkConnector.Core.Authentication.DTO;
+using Rego.LinkConnector.Core.Implementation;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -18,9 +19,9 @@ namespace Rego.LinkConnector.API.Controllers
     public class RegoLinkFlowConnectorController : ApiController
     {
         /// <summary>
-        /// IAuth implementation
+        /// IDataSourceConnector implementation
         /// </summary>
-        IAuth _authentication;
+        IDataSourceConnector _dataSourceConnector;
 
         #region Public Methods
         /// <summary>
@@ -31,6 +32,8 @@ namespace Rego.LinkConnector.API.Controllers
         {
             try
             {
+                this.InitializeProperties();
+
                 HttpResponseMessage response = this.Authenticate();
 
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -51,11 +54,13 @@ namespace Rego.LinkConnector.API.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage
+                HttpResponseMessage response = new HttpResponseMessage
                 {
-                    Content = new StringContent(ex.ToString()),
+                    Content = new StringContent(ex.Message),
                     StatusCode = HttpStatusCode.InternalServerError
                 };
+
+                return this.FormatErrorHttpResponseMessage(response);
             }
         }
 
@@ -67,6 +72,8 @@ namespace Rego.LinkConnector.API.Controllers
         {
             try
             {
+                this.InitializeProperties();
+
                 HttpResponseMessage response = this.Authenticate();
 
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -110,8 +117,10 @@ namespace Rego.LinkConnector.API.Controllers
         /// </summary>
         /// <returns>HTTP response with update/create result</returns>
         [HttpPost]
-        public HttpResponseMessage UpdateEndpoint()
+        public HttpResponseMessage ExecuteAction()
         {
+            this.InitializeProperties();
+
             HttpResponseMessage response = this.Authenticate();
 
             if (response.StatusCode != HttpStatusCode.OK)
@@ -133,9 +142,9 @@ namespace Rego.LinkConnector.API.Controllers
         /// <returns>Authentication response</returns>
         private HttpResponseMessage Authenticate()
         {
-            AuthenticationParametersDTO authenticationParametersDTO = this._authentication.GetAuthenticationParametersFromRequestHeaders(Request.Headers);
+            AuthenticationParametersDTO authenticationParametersDTO = this._dataSourceConnector.GetAuthenticationParametersFromRequestHeaders(Request.Headers);
 
-            return this._authentication.EndPointAuthenticate(authenticationParametersDTO);
+            return this._dataSourceConnector.EndPointAuthenticate(authenticationParametersDTO);
         }
 
         /// <summary>
@@ -143,7 +152,7 @@ namespace Rego.LinkConnector.API.Controllers
         /// </summary>
         private void Logout()
         {
-            this._authentication.EndPointLogOut();
+            this._dataSourceConnector.EndPointLogOut();
         }
 
         /// <summary>
@@ -194,6 +203,21 @@ namespace Rego.LinkConnector.API.Controllers
                                             "application/json"),
                 StatusCode = response.StatusCode
             };
+        }
+
+        /// <summary>
+        /// Initialize class properties (Must be called from every web method)
+        /// </summary>
+        private void InitializeProperties()
+        {
+            try
+            {
+                this._dataSourceConnector = Activator.CreateInstance(Type.GetType(ConfigurationManager.AppSettings["LinkConnector:IDataSourceConnectorImplementation"], true)) as IDataSourceConnector;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

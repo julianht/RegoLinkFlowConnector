@@ -30,10 +30,10 @@
               "$ref": "#/definitions/GetActions"
             }
           },
-		  "error": {
-            "description": "error",
+          "500": {
+            "description": "ERROR",
             "schema": {
-              "$ref": "#/definitions/GetActionsError"
+              "$ref": "#/definitions/ResponseError"
             }
           }
         },
@@ -61,16 +61,22 @@
             "schema": {
               "type": "object"
             }
+          },
+          "500": {
+            "description": "ERROR",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
           }
         },
         "x-ms-visibility": "internal"
       }
     },
-    "/api/RegoLinkFlowConnector/UpdateEndpoint/{actionID}": {
+    "/api/RegoLinkFlowConnector/ExecuteAction/{actionID}": {
       "post": {
-        "description": "Update/Create Object Instance",
-        "summary": "Update/Create Object Instance",
-        "operationId": "UpdateEndpoint",
+        "description": "Execute Action",
+        "summary": "Execute Action",
+        "operationId": "ExecuteAction",
         "parameters": [
           {
             "name": "actionID",
@@ -106,6 +112,12 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "500": {
+            "description": "ERROR",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
           }
         }
       }
@@ -130,20 +142,20 @@
         ]
       }
     },
-	"GetActionsError": {
-	  "type": "object",
-	  "properties": {
-		"code": {
-			"type": "string"
-		},
-		"message": {
-            "type": "string"
-		}
+    "ResponseError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
       },
-	  "required": [
-		"code",
-		"message"
-	  ]
+      "required": [
+        "code",
+        "message"
+      ]
     },
     "DynamicResponseGetParametersSchema": {
       "type": "object",

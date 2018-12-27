@@ -12,14 +12,14 @@
          <Members>
           <Member Name="#DisposeSession()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2018-12-26 22:38:00Z" FixCategory="DependsOnFix">
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2018-12-27 19:26:08Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="C:\Users\jhenao\Source\Repos\RegoLinkFlowConnector\RegoLinkFlowConnector\ITROI.Clarity.XogClient" File="Xog.cs" Line="305">Object 'responseStream' can be disposed more than once in method 'Xog.DisposeSession()'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 305</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#ExecXmlXogHTTP(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2018-12-26 22:38:00Z" FixCategory="DependsOnFix">
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2018-12-27 19:26:08Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="C:\Users\jhenao\Source\Repos\RegoLinkFlowConnector\RegoLinkFlowConnector\ITROI.Clarity.XogClient" File="Xog.cs" Line="237">Object 'responseStream' can be disposed more than once in method 'Xog.ExecXmlXogHTTP(string)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 237</Issue>
             </Message>
            </Messages>
@@ -30,7 +30,7 @@
          <Members>
           <Member Name="#DecryptText(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2018-12-26 22:38:00Z" FixCategory="DependsOnFix">
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2018-12-27 19:26:08Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="C:\Users\jhenao\Source\Repos\RegoLinkFlowConnector\RegoLinkFlowConnector\ITROI.Clarity.XogClient" File="XogBase.cs" Line="135">Object 'csDecrypt' can be disposed more than once in method 'XogBase.DecryptText(string)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 135</Issue>
              <Issue Certainty="75" Level="Warning" Path="C:\Users\jhenao\Source\Repos\RegoLinkFlowConnector\RegoLinkFlowConnector\ITROI.Clarity.XogClient" File="XogBase.cs" Line="135">Object 'msDecrypt' can be disposed more than once in method 'XogBase.DecryptText(string)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 135, 136</Issue>
             </Message>
@@ -42,7 +42,7 @@
          <Members>
           <Member Name="#ExecXog(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2018-12-26 22:38:00Z" FixCategory="DependsOnFix">
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2018-12-27 19:26:08Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="C:\Users\jhenao\Source\Repos\RegoLinkFlowConnector\RegoLinkFlowConnector\ITROI.Clarity.XogClient" File="XogHttpWebRequest.cs" Line="301">Object 'responseStream' can be disposed more than once in method 'XogHttpWebRequest.ExecXog(string)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 301</Issue>
             </Message>
            </Messages>

@@ -7,12 +7,12 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rego.LinkConnector.Core.Authentication.Contracts
+namespace Rego.LinkConnector.Core.Implementation
 {
     /// <summary>
-    /// Authentication interface
+    /// Contract with datasource public methods
     /// </summary>
-    public interface IAuth
+    public interface IDataSourceConnector
     {
         /// <summary>
         /// Gets the authentication parameters from a request headers

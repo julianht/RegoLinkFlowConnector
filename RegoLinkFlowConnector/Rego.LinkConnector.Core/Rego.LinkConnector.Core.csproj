@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authentication\Contracts\IAuth.cs" />
     <Compile Include="Authentication\DTO\AuthenticationParametersDTO.cs" />
+    <Compile Include="Implementation\IDataSourceConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Contracts\ICoreResourcesBLL.cs" />
     <Compile Include="Resources\CoreResources.Designer.cs">

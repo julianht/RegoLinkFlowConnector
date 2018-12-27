@@ -9,7 +9,7 @@ namespace ITROI.Clarity.XogClient.Exceptions
     /// XogClientLoginException
     /// </summary>
     [Serializable]
-    class XogClientLoginException : XogClientException
+    public class XogClientLoginException : XogClientException
     {
         /// <summary>
         /// XogClientLoginException
