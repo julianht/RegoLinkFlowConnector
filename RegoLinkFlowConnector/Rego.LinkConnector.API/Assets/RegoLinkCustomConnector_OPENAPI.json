@@ -5,7 +5,7 @@
     "title": "RegoLink for CA PPM",
     "description": "RegoLink Flow Connector"
   },
-  "host": "host-connector.azurewebsites.net",
+  "host": "cappmflowdev.azurewebsites.net",
   "basePath": "/",
   "schemes": [
     "https"
@@ -17,7 +17,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/host/GetActions": {
+    "/api/RegoLinkFlowConnector/GetActions": {
       "get": {
         "description": "List all available actions",
         "summary": "GetActions",
@@ -29,12 +29,18 @@
             "schema": {
               "$ref": "#/definitions/GetActions"
             }
+          },
+		  "error": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/GetActionsError"
+            }
           }
         },
         "x-ms-visibility": "internal"
       }
     },
-    "/api/host/GetParameters/{actionID}": {
+    "/api/RegoLinkFlowConnector/GetParameters/{actionID}": {
       "get": {
         "description": "List all parameters based on the selected Action",
         "summary": "GetParameters",
@@ -60,7 +66,7 @@
         "x-ms-visibility": "internal"
       }
     },
-    "/api/host/UpdateEndpoint/{actionID}": {
+    "/api/RegoLinkFlowConnector/UpdateEndpoint/{actionID}": {
       "post": {
         "description": "Update/Create Object Instance",
         "summary": "Update/Create Object Instance",
@@ -123,6 +129,21 @@
           "name"
         ]
       }
+    },
+	"GetActionsError": {
+	  "type": "object",
+	  "properties": {
+		"code": {
+			"type": "string"
+		},
+		"message": {
+            "type": "string"
+		}
+      },
+	  "required": [
+		"code",
+		"message"
+	  ]
     },
     "DynamicResponseGetParametersSchema": {
       "type": "object",

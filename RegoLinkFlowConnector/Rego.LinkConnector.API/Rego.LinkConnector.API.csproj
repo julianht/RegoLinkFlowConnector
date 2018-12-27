@@ -96,6 +96,7 @@
     <Content Include="packages.config" />
     <Content Include="Assets\azuredev_luis.palacios.PublishSettings" />
     <Content Include="Assets\RegoLinkCustomConnector_OPENAPI.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

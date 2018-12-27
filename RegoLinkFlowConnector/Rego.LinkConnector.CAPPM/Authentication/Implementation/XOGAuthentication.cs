@@ -137,9 +137,17 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
             }
             catch (Exception ex)
             {
+                string message = ex.Message;
+
+                if (ex.InnerException != null &&
+                    !string.IsNullOrEmpty(ex.InnerException.Message))
+                {
+                    message += " " + ex.InnerException.Message;
+                }
+
                 return new HttpResponseMessage
                 {
-                    Content = new StringContent(ex.ToString()),
+                    Content = new StringContent(message),
                     StatusCode = HttpStatusCode.InternalServerError
                 };
             }

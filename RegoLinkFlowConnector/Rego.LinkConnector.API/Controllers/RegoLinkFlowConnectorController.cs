@@ -35,7 +35,7 @@ namespace Rego.LinkConnector.API.Controllers
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return response;
+                    return this.FormatErrorHttpResponseMessage(response);
                 }
 
                 JArray objects = this.GetAvailableObjectsNames();
@@ -169,6 +169,31 @@ namespace Rego.LinkConnector.API.Controllers
             json.Add(jsonObject);
 
             return json;
+        }
+
+        /// <summary>
+        /// Formats the http error message with json structure
+        /// </summary>
+        /// <param name="response">Http response to format</param>
+        /// <returns>Http response with json format</returns>
+        private HttpResponseMessage FormatErrorHttpResponseMessage(HttpResponseMessage response)
+        {
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return response;
+            }
+
+            JObject error = new JObject();
+            error.Add("code", (int)response.StatusCode);
+            error.Add("message", response.StatusCode + ". " + response.Content.ReadAsStringAsync().Result);
+
+            return new HttpResponseMessage
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(error),
+                                            Encoding.UTF8,
+                                            "application/json"),
+                StatusCode = response.StatusCode
+            };
         }
         #endregion
     }
