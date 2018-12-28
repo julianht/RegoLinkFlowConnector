@@ -144,6 +144,9 @@
   <data name="INFO_GET_PARAMETERS_HTTP_REQUEST" xml:space="preserve">
     <value>GetParameters() HTTP request. ActionID: {0}</value>
   </data>
+  <data name="INFO_NO_ACTIONS_FOUND" xml:space="preserve">
+    <value>No actions found</value>
+  </data>
   <data name="INFO_URL" xml:space="preserve">
     <value>URL: {0}</value>
   </data>

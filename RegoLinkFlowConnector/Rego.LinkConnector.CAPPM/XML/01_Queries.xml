@@ -1,0 +1,81 @@
+<NikuDataBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xsd/nikuxog_contentPack.xsd">
+  <Header action="write" externalSource="NIKU" objectType="contentPack" version="15.4.0.270"/>
+  <contentPack update="true">
+	<queries update="true">
+	  <query code="rego_flow_actions" isUserPortletAvailable="1" source="customer">
+		<nls languageCode="ca" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="cs" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="da" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="de" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="en" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="es" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="fi" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="fr" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="hu" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="it" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="ja" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="ko" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="nl" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="no" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="pl" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="pt" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="ru" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="sv" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="tr" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="zh" name="RegoLink Flow Connector - Actions"/>
+		<nls languageCode="zh_TW" name="RegoLink Flow Connector - Actions"/>
+		<nsql dbId="Niku" dbVendor="all">SELECT   
+	 @SELECT:DIM:USER_DEF:IMPLIED:RF:RF.CODE:action_id@,
+	 @SELECT:DIM_PROP:USER_DEF:IMPLIED:RF:RF.NAME:action_name@,
+	 @SELECT:DIM_PROP:USER_DEF:IMPLIED:RF:to_char(RF.XML_TEMPLATE):xml_template@,
+	 @SELECT:DIM_PROP:USER_DEF:IMPLIED:RF:RF.ACTION_SEQUENCE:action_sequence@
+from odf_ca_rego_flow_actions RF
+WHERE    
+RF.ACTIVE = 1 
+and @filter@</nsql>
+		<attribute id="action_id" required="false"/>
+		<attribute id="action_name" required="false"/>
+		<attribute id="xml_template" required="false"/>
+		<attribute id="action_sequence" required="false"/>
+	  </query>
+	  <query code="rego_flow_params" isUserPortletAvailable="1" source="customer">
+		<nls languageCode="ca" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="cs" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="da" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="de" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="en" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="es" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="fi" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="fr" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="hu" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="it" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="ja" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="ko" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="nl" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="no" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="pl" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="pt" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="ru" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="sv" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="tr" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="zh" name="RegoLink Flow Connector - Parameters"/>
+		<nls languageCode="zh_TW" name="RegoLink Flow Connector - Parameters"/>
+		<nsql dbId="Niku" dbVendor="all">SELECT   @SELECT:DIM:USER_DEF:IMPLIED:FP:FP.CODE:PARAM_ID@,
+	 @SELECT:DIM_PROP:USER_DEF:IMPLIED:FP:FP.NAME:PARAM_NAME@,
+	 @SELECT:DIM_PROP:USER_DEF:IMPLIED:FP:NVL(FP.REQUIRED,0):REQUIRED@,
+	 @SELECT:DIM_PROP:USER_DEF:IMPLIED:FP:FP.HINT:HINT@,
+	 @SELECT:DIM_PROP:USER_DEF:IMPLIED:FP:FP.PARAMETER_SEQUENCE:PARAMETER_SEQUENCE@
+FROM     odf_ca_rego_flow_params FP
+WHERE    FP.ACTIVE = 1
+AND FP.ODF_PARENT_ID = (SELECT ID FROM ODF_CA_REGO_FLOW_ACTIONS WHERE CODE = @WHERE:PARAM:USER_DEF:STRING:ACTION_ID@)
+AND @FILTER@</nsql>
+		<attribute id="param_action_id" required="false"/>
+		<attribute id="param_id" required="false"/>
+		<attribute id="param_name" required="false"/>
+		<attribute id="required" required="false"/>
+		<attribute id="parameter_sequence" required="false"/>
+		<attribute id="hint" required="false"/>
+	  </query>
+	</queries>
+  </contentPack>
+</NikuDataBus>

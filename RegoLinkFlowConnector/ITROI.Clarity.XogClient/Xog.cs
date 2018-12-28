@@ -343,7 +343,7 @@ namespace ITROI.Clarity.XogClient
         	                                        <xog:Auth>
 			                                            <xog:SessionID>{0}</xog:SessionID>
 		                                            </xog:Auth>
-                                                  ", SessionId);
+                                                  ", this._sessionId);
 
             soapRequestEnvelope.Body.InnerXml = xml;
 

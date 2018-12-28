@@ -87,8 +87,8 @@
             "x-ms-summary": "Actions",
             "x-ms-dynamic-values": {
               "operationId": "GetActions",
-              "value-path": "id",
-              "value-title": "name"
+              "value-path": "Id",
+              "value-title": "Name"
             }
           },
           {
@@ -129,16 +129,16 @@
       "items": {
         "type": "object",
         "properties": {
-          "id": {
+          "Id": {
             "type": "string"
           },
-          "name": {
+          "Name": {
             "type": "string"
           }
         },
         "required": [
-          "id",
-          "name"
+          "Id",
+          "Name"
         ]
       }
     },

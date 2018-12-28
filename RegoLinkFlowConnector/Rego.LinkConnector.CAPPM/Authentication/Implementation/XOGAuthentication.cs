@@ -14,6 +14,8 @@ using Rego.LinkConnector.CAPPM.Resources;
 using ITROI.Clarity.XogClient.Exceptions;
 using Rego.LinkConnector.Core.Log.Contracts;
 using Rego.LinkConnector.Core.Log.Implementation;
+using Rego.LinkConnector.Core.Actions.DTO;
+using System.Data;
 
 namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
 {
@@ -41,6 +43,16 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
         /// ILog implementation
         /// </summary>
         private ILog _log;
+
+        /// <summary>
+        /// Constant with actions query
+        /// </summary>
+        private const string QUERY_REGO_FLOW_ACTIONS = "rego_flow_actions";
+
+        /// <summary>
+        /// Constant with action parameters
+        /// </summary>
+        private const string QUERY_REGO_FLOW_PARAMETERS = "rego_flow_actions";
 
         /// <summary>
         /// Constructor
@@ -171,10 +183,10 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
                     sessionID = this._xogClient.GetSessionId(authenticationParametersDTO.Username,
                                                              authenticationParametersDTO.Password);
                 }
-                catch (XogClientLoginException ex)
+                catch (XogClientLoginException)
                 {
                     unauthorized = true;
-                    throw ex;
+                    throw;
                 }
 
                 if (string.IsNullOrEmpty(sessionID))
@@ -228,6 +240,56 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
                 this._log.WriteLogError(string.Format(this._coreResourcesBLL.GetResource("ERROR_METHOD_EXCEPTION"),
                                                       "EndPointLogOut()",
                                                       ex.ToString()));
+            }
+        }
+
+        /// <summary>
+        /// Gets the datasource available actions
+        /// </summary>
+        /// <returns></returns>
+        public IList<ActionDTO> GetActiveActions()
+        {
+            try
+            {
+                IList<string> columns = new List<string>();
+                columns.Add("action_id");
+                columns.Add("action_name");
+
+                IDictionary<string, string> orderBy = new Dictionary<string, string>();
+                orderBy.Add("action_sequence", "asc");
+
+                DataTable result = this._xogClient.GetQueryData(QUERY_REGO_FLOW_ACTIONS,
+                                                                new Dictionary<string, string>(),
+                                                                null,
+                                                                orderBy,
+                                                                null);
+
+                if (result == null ||
+                    result.Rows.Count == 0)
+                {
+                    return new List<ActionDTO>();
+                }
+
+                IList<ActionDTO> actionsDTO = new List<ActionDTO>();
+
+                foreach (DataRow row in result.Rows)
+                {
+                    actionsDTO.Add(new ActionDTO
+                    {
+                        Id = row["action_id"].ToString(),
+                        Name = row["action_name"].ToString()
+                    });
+                }
+
+                return actionsDTO;
+            }
+            catch (Exception ex)
+            {
+                this._log.WriteLogError(string.Format(this._coreResourcesBLL.GetResource("ERROR_METHOD_EXCEPTION"),
+                                                      "GetActiveActions()",
+                                                      ex.ToString()));
+
+                throw;
             }
         }
         #endregion

@@ -1,6 +1,7 @@
 ﻿using ITROI.Clarity.XogClient;
 using Rego.LinkConnector.CAPPM.Authentication.Implementation;
 using Rego.LinkConnector.CAPPM.Resources;
+using Rego.LinkConnector.Core.Actions.DTO;
 using Rego.LinkConnector.Core.Authentication.DTO;
 using Rego.LinkConnector.Core.Implementation;
 using Rego.LinkConnector.Core.Resources.Contracts;
@@ -61,6 +62,15 @@ namespace Rego.LinkConnector.CAPPM.Implementation
         public void EndPointLogOut()
         {
             this._xogAuthentication.EndPointLogOut();
+        }
+
+        /// <summary>
+        /// Gets the datasource available actions
+        /// </summary>
+        /// <returns></returns>
+        public IList<ActionDTO> GetActions()
+        {
+            return this._xogAuthentication.GetActiveActions();
         }
         #endregion
     }

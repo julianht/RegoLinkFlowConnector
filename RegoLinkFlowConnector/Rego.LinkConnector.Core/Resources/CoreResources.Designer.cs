@@ -142,6 +142,15 @@ namespace Rego.LinkConnector.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No actions found.
+        /// </summary>
+        internal static string INFO_NO_ACTIONS_FOUND {
+            get {
+                return ResourceManager.GetString("INFO_NO_ACTIONS_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to URL: {0}.
         /// </summary>
         internal static string INFO_URL {

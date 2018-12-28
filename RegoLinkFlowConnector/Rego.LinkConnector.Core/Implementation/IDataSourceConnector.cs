@@ -1,4 +1,5 @@
-﻿using Rego.LinkConnector.Core.Authentication.DTO;
+﻿using Rego.LinkConnector.Core.Actions.DTO;
+using Rego.LinkConnector.Core.Authentication.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,5 +33,11 @@ namespace Rego.LinkConnector.Core.Implementation
         /// Closes open session
         /// </summary>
         void EndPointLogOut();
+
+        /// <summary>
+        /// Gets the datasource available actions
+        /// </summary>
+        /// <returns></returns>
+        IList<ActionDTO> GetActions();
     }
 }

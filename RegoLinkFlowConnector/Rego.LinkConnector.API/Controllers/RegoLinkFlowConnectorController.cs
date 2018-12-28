@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Rego.LinkConnector.Core.Actions.DTO;
 using Rego.LinkConnector.Core.Authentication.DTO;
 using Rego.LinkConnector.Core.Implementation;
 using Rego.LinkConnector.Core.Log.Contracts;
@@ -57,13 +58,18 @@ namespace Rego.LinkConnector.API.Controllers
                     return this.FormatErrorHttpResponseMessage(response);
                 }
 
-                JArray objects = this.GetAvailableObjectsNames();
+                IList<ActionDTO> actionsDTO = this._dataSourceConnector.GetActions();
+
+                if (actionsDTO.Count == 0)
+                {
+                    this._log.WriteLogInfo(this._coreResourcesBLL.GetResource("INFO_NO_ACTIONS_FOUND"));
+                }
 
                 this.Logout();
 
                 return new HttpResponseMessage
                 {
-                    Content = new StringContent(JsonConvert.SerializeObject(objects),
+                    Content = new StringContent(JsonConvert.SerializeObject(actionsDTO),
                                                 Encoding.UTF8,
                                                 "application/json")
                 };
@@ -192,31 +198,6 @@ namespace Rego.LinkConnector.API.Controllers
         }
 
         /// <summary>
-        /// Gets the available objects names
-        /// </summary>
-        /// <returns>List with available objects names</returns>
-        private JArray GetAvailableObjectsNames()
-        {
-            JArray json = new JArray();
-            JObject jsonObject = new JObject();
-            jsonObject.Add("id", "1");
-            jsonObject.Add("name", "Projects");
-            json.Add(jsonObject);
-
-            jsonObject = new JObject();
-            jsonObject.Add("id", "2");
-            jsonObject.Add("name", "Ideas");
-            json.Add(jsonObject);
-
-            jsonObject = new JObject();
-            jsonObject.Add("id", "3");
-            jsonObject.Add("name", "Resources");
-            json.Add(jsonObject);
-
-            return json;
-        }
-
-        /// <summary>
         /// Formats the http error message with json structure
         /// </summary>
         /// <param name="response">Http response to format</param>
@@ -254,7 +235,7 @@ namespace Rego.LinkConnector.API.Controllers
             {
                 this._log.WriteLogError(string.Format(this._coreResourcesBLL.GetResource("ERROR_LOADING_DATASOURCE_CONNECTOR_ASSEMBLY"),
                                                       ex.ToString()));
-                throw ex;
+                throw;
             }
         }
         #endregion

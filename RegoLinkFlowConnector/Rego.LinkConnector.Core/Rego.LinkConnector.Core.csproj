@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\DTO\ActionDTO.cs" />
     <Compile Include="Authentication\DTO\AuthenticationParametersDTO.cs" />
     <Compile Include="Implementation\IDataSourceConnector.cs" />
     <Compile Include="Log\Contracts\ILog.cs" />
