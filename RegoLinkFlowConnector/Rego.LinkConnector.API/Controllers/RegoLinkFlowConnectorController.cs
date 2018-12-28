@@ -2,6 +2,10 @@
 using Newtonsoft.Json.Linq;
 using Rego.LinkConnector.Core.Authentication.DTO;
 using Rego.LinkConnector.Core.Implementation;
+using Rego.LinkConnector.Core.Log.Contracts;
+using Rego.LinkConnector.Core.Log.Implementation;
+using Rego.LinkConnector.Core.Resources.Contracts;
+using Rego.LinkConnector.Core.Resources.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -23,6 +27,16 @@ namespace Rego.LinkConnector.API.Controllers
         /// </summary>
         IDataSourceConnector _dataSourceConnector;
 
+        /// <summary>
+        /// Ilog implementation
+        /// </summary>
+        ILog _log = new Log();
+
+        /// <summary>
+        /// ICoreResourcesBLL implementation
+        /// </summary>
+        ICoreResourcesBLL _coreResourcesBLL = new CoreResourcesBLL();
+
         #region Public Methods
         /// <summary>
         /// Available actions HTTP request
@@ -32,6 +46,8 @@ namespace Rego.LinkConnector.API.Controllers
         {
             try
             {
+                this._log.WriteLogInfo(this._coreResourcesBLL.GetResource("INFO_GET_ACTIONS_HTTP_REQUEST"));
+
                 this.InitializeProperties();
 
                 HttpResponseMessage response = this.Authenticate();
@@ -72,6 +88,9 @@ namespace Rego.LinkConnector.API.Controllers
         {
             try
             {
+                this._log.WriteLogInfo(string.Format(this._coreResourcesBLL.GetResource("INFO_GET_PARAMETERS_HTTP_REQUEST"), 
+                                                     id));
+
                 this.InitializeProperties();
 
                 HttpResponseMessage response = this.Authenticate();
@@ -119,19 +138,32 @@ namespace Rego.LinkConnector.API.Controllers
         [HttpPost]
         public HttpResponseMessage ExecuteAction()
         {
-            this.InitializeProperties();
-
-            HttpResponseMessage response = this.Authenticate();
-
-            if (response.StatusCode != HttpStatusCode.OK)
+            try
             {
-                return response;
+                this._log.WriteLogInfo(this._coreResourcesBLL.GetResource("INFO_EXECUTE_ACTION_HTTP_REQUEST"));
+
+                this.InitializeProperties();
+
+                HttpResponseMessage response = this.Authenticate();
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    return response;
+                }
+
+                return new HttpResponseMessage
+                {
+                    Content = new StringContent("OK")
+                };
             }
-
-            return new HttpResponseMessage
+            catch (Exception ex)
             {
-                Content = new StringContent("OK")
-            };
+                return new HttpResponseMessage
+                {
+                    Content = new StringContent(ex.ToString()),
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
         }
         #endregion
 
@@ -142,6 +174,8 @@ namespace Rego.LinkConnector.API.Controllers
         /// <returns>Authentication response</returns>
         private HttpResponseMessage Authenticate()
         {
+            this._log.WriteLogInfo(this._coreResourcesBLL.GetResource("INFO_ENDPOINT_AUTHENTICATE_EXECUTION"));
+
             AuthenticationParametersDTO authenticationParametersDTO = this._dataSourceConnector.GetAuthenticationParametersFromRequestHeaders(Request.Headers);
 
             return this._dataSourceConnector.EndPointAuthenticate(authenticationParametersDTO);
@@ -152,6 +186,8 @@ namespace Rego.LinkConnector.API.Controllers
         /// </summary>
         private void Logout()
         {
+            this._log.WriteLogInfo(this._coreResourcesBLL.GetResource("INFO_ENDPOINT_LOGOUT_EXECUTION"));
+
             this._dataSourceConnector.EndPointLogOut();
         }
 
@@ -216,6 +252,8 @@ namespace Rego.LinkConnector.API.Controllers
             }
             catch (Exception ex)
             {
+                this._log.WriteLogError(string.Format(this._coreResourcesBLL.GetResource("ERROR_LOADING_DATASOURCE_CONNECTOR_ASSEMBLY"),
+                                                      ex.ToString()));
                 throw ex;
             }
         }

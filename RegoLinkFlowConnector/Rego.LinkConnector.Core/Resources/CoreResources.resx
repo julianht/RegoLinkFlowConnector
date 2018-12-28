@@ -120,4 +120,34 @@
   <data name="ERROR_AUTHENTICATION_FAILED" xml:space="preserve">
     <value>Authentication Failed</value>
   </data>
+  <data name="ERROR_LOADING_DATASOURCE_CONNECTOR_ASSEMBLY" xml:space="preserve">
+    <value>An error ocurred loading assembly from LinkConnector:IDataSourceConnectorImplementation key: {0}</value>
+  </data>
+  <data name="ERROR_METHOD_EXCEPTION" xml:space="preserve">
+    <value>Method: {0}. Exception: {1}</value>
+  </data>
+  <data name="ERROR_NULL_AUTHORIZATION_HEADERS" xml:space="preserve">
+    <value>Null authorization headers</value>
+  </data>
+  <data name="INFO_ENDPOINT_AUTHENTICATE_EXECUTION" xml:space="preserve">
+    <value>EndPointAuthenticate() executed</value>
+  </data>
+  <data name="INFO_ENDPOINT_LOGOUT_EXECUTION" xml:space="preserve">
+    <value>EndPointLogOut() executed</value>
+  </data>
+  <data name="INFO_EXECUTE_ACTION_HTTP_REQUEST" xml:space="preserve">
+    <value>ExecuteAction() HTTP request</value>
+  </data>
+  <data name="INFO_GET_ACTIONS_HTTP_REQUEST" xml:space="preserve">
+    <value>GetActions() HTTP request</value>
+  </data>
+  <data name="INFO_GET_PARAMETERS_HTTP_REQUEST" xml:space="preserve">
+    <value>GetParameters() HTTP request. ActionID: {0}</value>
+  </data>
+  <data name="INFO_URL" xml:space="preserve">
+    <value>URL: {0}</value>
+  </data>
+  <data name="INFO_USER" xml:space="preserve">
+    <value>User: {0}</value>
+  </data>
 </root>

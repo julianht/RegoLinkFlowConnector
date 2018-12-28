@@ -68,5 +68,95 @@ namespace Rego.LinkConnector.Core.Resources {
                 return ResourceManager.GetString("ERROR_AUTHENTICATION_FAILED", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error ocurred loading assembly from LinkConnector:IDataSourceConnectorImplementation key: {0}.
+        /// </summary>
+        internal static string ERROR_LOADING_DATASOURCE_CONNECTOR_ASSEMBLY {
+            get {
+                return ResourceManager.GetString("ERROR_LOADING_DATASOURCE_CONNECTOR_ASSEMBLY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method: {0}. Exception: {1}.
+        /// </summary>
+        internal static string ERROR_METHOD_EXCEPTION {
+            get {
+                return ResourceManager.GetString("ERROR_METHOD_EXCEPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Null authorization headers.
+        /// </summary>
+        internal static string ERROR_NULL_AUTHORIZATION_HEADERS {
+            get {
+                return ResourceManager.GetString("ERROR_NULL_AUTHORIZATION_HEADERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EndPointAuthenticate() executed.
+        /// </summary>
+        internal static string INFO_ENDPOINT_AUTHENTICATE_EXECUTION {
+            get {
+                return ResourceManager.GetString("INFO_ENDPOINT_AUTHENTICATE_EXECUTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EndPointLogOut() executed.
+        /// </summary>
+        internal static string INFO_ENDPOINT_LOGOUT_EXECUTION {
+            get {
+                return ResourceManager.GetString("INFO_ENDPOINT_LOGOUT_EXECUTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ExecuteAction() HTTP request.
+        /// </summary>
+        internal static string INFO_EXECUTE_ACTION_HTTP_REQUEST {
+            get {
+                return ResourceManager.GetString("INFO_EXECUTE_ACTION_HTTP_REQUEST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetActions() HTTP request.
+        /// </summary>
+        internal static string INFO_GET_ACTIONS_HTTP_REQUEST {
+            get {
+                return ResourceManager.GetString("INFO_GET_ACTIONS_HTTP_REQUEST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetParameters() HTTP request. ActionID: {0}.
+        /// </summary>
+        internal static string INFO_GET_PARAMETERS_HTTP_REQUEST {
+            get {
+                return ResourceManager.GetString("INFO_GET_PARAMETERS_HTTP_REQUEST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL: {0}.
+        /// </summary>
+        internal static string INFO_URL {
+            get {
+                return ResourceManager.GetString("INFO_URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User: {0}.
+        /// </summary>
+        internal static string INFO_USER {
+            get {
+                return ResourceManager.GetString("INFO_USER", resourceCulture);
+            }
+        }
     }
 }

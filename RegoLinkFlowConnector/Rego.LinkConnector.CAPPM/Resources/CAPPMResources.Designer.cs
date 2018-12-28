@@ -61,11 +61,20 @@ namespace Rego.LinkConnector.CAPPM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CA PPM url must finish with &quot;niku/xog&quot;.
+        ///   Looks up a localized string similar to CA PPM url must finish with &quot;niku/xog&quot;. {0}.
         /// </summary>
         internal static string ERROR_INVALID_CAPPM_URL {
             get {
                 return ResourceManager.GetString("ERROR_INVALID_CAPPM_URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL and User must be separated by |.
+        /// </summary>
+        internal static string ERROR_URL_USER_SEPARATED_BY_PIPE {
+            get {
+                return ResourceManager.GetString("ERROR_URL_USER_SEPARATED_BY_PIPE", resourceCulture);
             }
         }
     }

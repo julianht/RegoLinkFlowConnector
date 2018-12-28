@@ -12,6 +12,8 @@ using ITROI.Clarity.XogClient;
 using Rego.LinkConnector.Core.Authentication.DTO;
 using Rego.LinkConnector.CAPPM.Resources;
 using ITROI.Clarity.XogClient.Exceptions;
+using Rego.LinkConnector.Core.Log.Contracts;
+using Rego.LinkConnector.Core.Log.Implementation;
 
 namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
 {
@@ -36,12 +38,18 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
         private IXogClient _xogClient;
 
         /// <summary>
+        /// ILog implementation
+        /// </summary>
+        private ILog _log;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public XOGAuthentication()
         {
             this._coreResourcesBLL = new CoreResourcesBLL();
             this._CAPPMResourcesBLL = new CAPPMResourcesBLL();
+            this._log = new Log();
         }
 
         #region IAuth Implementation
@@ -56,6 +64,7 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
             {
                 if (headers.Authorization == null)
                 {
+                    this._log.WriteLogError(this._coreResourcesBLL.GetResource("ERROR_NULL_AUTHORIZATION_HEADERS"));
                     return null;
                 }
 
@@ -65,6 +74,7 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
 
                 if (authenticationParams.Length != 2)
                 {
+                    this._log.WriteLogError(this._CAPPMResourcesBLL.GetResource("ERROR_URL_USER_SEPARATED_BY_PIPE"));
                     return null;
                 }
 
@@ -76,13 +86,38 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
                 string username = usernameAndPassword.Substring(0, index),
                        password = usernameAndPassword.Substring(username.Length + 1);
 
+                if (!string.IsNullOrEmpty(url))
+                {
+                    this._log.WriteLogInfo(string.Format(this._coreResourcesBLL.GetResource("INFO_URL"),
+                                                         url));
+                }
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    string encryptedUser;
+
+                    if (username.Length <= 3)
+                    {
+                        encryptedUser = "***";
+                    }
+                    else
+                    {
+                        encryptedUser = username.Substring(0, 3);
+                        encryptedUser += new string('*', username.Substring(3).Length);
+                    }
+
+                    this._log.WriteLogInfo(string.Format(this._coreResourcesBLL.GetResource("INFO_USER"),
+                                                         encryptedUser));
+                }
+
                 if (string.IsNullOrEmpty(url) ||
                     string.IsNullOrEmpty(username) ||
                     string.IsNullOrEmpty(password))
                 {
+                    this._log.WriteLogError(this._CAPPMResourcesBLL.GetResource("ERROR_URL_USER_SEPARATED_BY_PIPE"));
                     return null;
                 }
-
+                
                 return new AuthenticationParametersDTO
                 {
                     URL = url,
@@ -90,8 +125,11 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
                     Password = password
                 };
             }
-            catch
+            catch (Exception ex)
             {
+                this._log.WriteLogError(string.Format(this._coreResourcesBLL.GetResource("ERROR_METHOD_EXCEPTION"),
+                                                      "GetAuthenticationParametersFromRequestHeaders()",
+                                                      ex.ToString()));
                 return null;
             }
         }
@@ -103,20 +141,26 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
         /// <returns>HTTP authentication response</returns>
         public HttpResponseMessage EndPointAuthenticate(AuthenticationParametersDTO authenticationParametersDTO)
         {
-            bool unauthorized = false;
+            bool unauthorized = false,
+                 writeLog = true;
 
             try
             {
                 if (authenticationParametersDTO == null)
                 {
                     unauthorized = true;
+                    writeLog = false;
                     throw new Exception(this._coreResourcesBLL.GetResource("ERROR_AUTHENTICATION_FAILED"));
                 }
 
                 if (!authenticationParametersDTO.URL.ToLower().Contains("/niku/xog"))
                 {
                     unauthorized = true;
-                    throw new Exception(this._CAPPMResourcesBLL.GetResource("ERROR_INVALID_CAPPM_URL"));
+                    writeLog = false;
+                    this._log.WriteLogError(string.Format(this._CAPPMResourcesBLL.GetResource("ERROR_INVALID_CAPPM_URL"),
+                                                          authenticationParametersDTO.URL));
+                    throw new Exception(string.Format(this._CAPPMResourcesBLL.GetResource("ERROR_INVALID_CAPPM_URL"),
+                                                      ""));
                 }
 
                 this._xogClient = new XogClient(authenticationParametersDTO.URL);
@@ -151,6 +195,13 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
                     message += " " + ex.InnerException.Message;
                 }
 
+                if (writeLog)
+                {
+                    this._log.WriteLogError(string.Format(this._coreResourcesBLL.GetResource("ERROR_METHOD_EXCEPTION"),
+                                                          "EndPointAuthenticate()",
+                                                          message));
+                }
+
                 return new HttpResponseMessage
                 {
                     Content = new StringContent(message),
@@ -165,9 +216,18 @@ namespace Rego.LinkConnector.CAPPM.Authentication.Implementation
         /// </summary>
         public void EndPointLogOut()
         {
-            if (this._xogClient != null)
+            try
             {
-                this._xogClient.DisposeSession();
+                if (this._xogClient != null)
+                {
+                    this._xogClient.DisposeSession();
+                }
+            }
+            catch (Exception ex)
+            {
+                this._log.WriteLogError(string.Format(this._coreResourcesBLL.GetResource("ERROR_METHOD_EXCEPTION"),
+                                                      "EndPointLogOut()",
+                                                      ex.ToString()));
             }
         }
         #endregion
